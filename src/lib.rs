@@ -346,6 +346,11 @@ where
         }
     }
 
+    /// Return the underlying I2C device
+    pub fn release(self) -> I2C {
+        self.i2c
+    }
+
     fn read_x_raw(&mut self) -> Result<i16, Error> {
         self.read_register_i16(Register::OUT_X_H, Register::OUT_X_L)
     }
