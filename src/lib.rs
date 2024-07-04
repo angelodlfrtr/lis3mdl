@@ -140,10 +140,16 @@ where
 
     /// Create a new driver from an I<sup>2</sup>C peripheral whithout default settings configuration.
     pub fn new_no_defaults(i2c: I2C, addr: Address) -> Result<Self, Error> {
-        Ok(Lis3mdl {
+        let mut lis3mdl = Lis3mdl {
             i2c,
             address: addr as u8,
-        })
+        };
+
+        if lis3mdl.who_am_i()? != LIS3MDL_DEVICE_ID {
+            return Err(Error::IncorrectDeviceIdFound);
+        }
+
+        Ok(lis3mdl)
     }
 
     /// Reads the WHO_AM_I register; should return `0x3D`
